@@ -34,27 +34,26 @@ const Locations = [
 ];
 
 window.onload = () => {
-  const scene = document.querySelector("a-scene");
-  return navigator.geolocation.getCurrentPosition(
-    function(position) {
-      Locations.forEach(place => {
-        const latitude = place.latitude;
-        const longitude = place.longitude;
+  const scene = document.querySelector('a-scene');
 
-        const placeText = document.createElement("a-image");
-        placeText.setAttribute(
-          "gps-entity-place",
-          `latitude: ${latitude}; longitude: ${longitude};`
-        );
-        placeText.setAttribute("title", place.placename);
-        placeText.setAttribute("scale", "15 15 15");
-        placeText.setAttribute('src', './assets/map-marker.png');
+  // first get current user location
+  return navigator.geolocation.getCurrentPosition(function (position) {
+    Locations.forEach((place) => {
+      const latitude = place.latitude;
+      const longitude = place.longitude;
 
-        placeText.addEventListener("loaded", () => {
-          window.dispatchEvent(new CustomEvent("gps-entity-place-loaded"));
-        });
+      // add place icon
+      const icon = document.createElement('a-image');
+      icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+      icon.setAttribute('name', place.placename);
+      icon.setAttribute('src', './assets/map-marker.png');
 
-        const clickListener = function(ev) {
+      // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
+      // icon.setAttribute('scale', '10, 10');
+
+      icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
+
+      const clickListener = function(ev) {
           ev.stopPropagation();
           ev.preventDefault();
 
@@ -76,16 +75,73 @@ window.onload = () => {
           }
       };
 
-      placeText.addEventListener('click', clickListener);
-
-        scene.appendChild(placeText);
-      });
-    },
-    err => console.error("Error in retrieving position", err),
-    {
-      enableHighAccuracy: true,
-      maximumAge: 0,
-      timeout: 27000
-    }
+      icon.addEventListener('click', clickListener);
+      
+      scene.appendChild(icon);
+  });
+  },
+      (err) => console.error('Error in retrieving position', err),
+      {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 27000,
+      }
   );
 };
+
+// window.onload = () => {
+//   const scene = document.querySelector("a-scene");
+//   return navigator.geolocation.getCurrentPosition(
+//     function(position) {
+//       Locations.forEach(place => {
+//         const latitude = place.latitude;
+//         const longitude = place.longitude;
+
+//         const placeText = document.createElement("a-image");
+//         placeText.setAttribute(
+//           "gps-entity-place",
+//           `latitude: ${latitude}; longitude: ${longitude};`
+//         );
+//         placeText.setAttribute("name", place.placename);
+//         placeText.setAttribute("scale", "15 15 15");
+//         placeText.setAttribute('src', './assets/map-marker.png');
+
+//         placeText.addEventListener("loaded", () => {
+//           window.dispatchEvent(new CustomEvent("gps-entity-place-loaded"));
+//         });
+
+//         const clickListener = function(ev) {
+//           ev.stopPropagation();
+//           ev.preventDefault();
+
+//           const name = ev.target.getAttribute('name');
+
+//           const el = ev.detail.intersection && ev.detail.intersection.object.el;
+
+//           if (el && el === ev.target) {
+//               const label = document.createElement('span');
+//               const container = document.createElement('div');
+//               container.setAttribute('id', 'place-label');
+//               label.innerText = name;
+//               container.appendChild(label);
+//               document.body.appendChild(container);
+
+//               setTimeout(() => {
+//                   container.parentElement.removeChild(container);
+//               }, 1500);
+//           }
+//       };
+
+//       placeText.addEventListener('click', clickListener);
+
+//         scene.appendChild(placeText);
+//       });
+//     },
+//     err => console.error("Error in retrieving position", err),
+//     {
+//       enableHighAccuracy: true,
+//       maximumAge: 0,
+//       timeout: 27000
+//     }
+//   );
+// };
