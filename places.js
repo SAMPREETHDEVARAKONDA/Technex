@@ -41,13 +41,13 @@ window.onload = () => {
         const latitude = place.latitude;
         const longitude = place.longitude;
 
-        const placeText = document.createElement("a-image");
+        const placeText = document.createElement("a-link");
         placeText.setAttribute(
           "gps-entity-place",
           `latitude: ${latitude}; longitude: ${longitude};`
         );
         placeText.setAttribute("title", place.placename);
-        placeText.setAttribute("scale", "15 15 15");
+        // placeText.setAttribute("scale", "15 15 15");
         placeText.setAttribute('src', './assets/map-marker.png');
 
         placeText.addEventListener("loaded", () => {
