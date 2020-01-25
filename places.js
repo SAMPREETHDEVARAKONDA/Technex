@@ -1,34 +1,3 @@
-// getting places from APIs
-function loadPlaces(position) {
-  const params = {
-    radius: 300, // search places not farther than this value (in meters)
-    clientId: "<your-client-id>",
-    clientSecret: "<your-client-secret>",
-    version: "20300101" // foursquare versioning, required but unuseful for this demo
-  };
-
-  // CORS Proxy to avoid CORS problems
-  const corsProxy = "https://cors-anywhere.herokuapp.com/";
-
-  // Foursquare API (limit param: number of maximum places to fetch)
-  const endpoint = `${corsProxy}https://api.foursquare.com/v2/venues/search?intent=checkin
-        &ll=${position.latitude},${position.longitude}
-        &radius=${params.radius}
-        &client_id=${params.clientId}
-        &client_secret=${params.clientSecret}
-        &limit=30 
-        &v=${params.version}`;
-  return fetch(endpoint)
-    .then(res => {
-      return res.json().then(resp => {
-        return resp.response.venues;
-      });
-    })
-    .catch(err => {
-      console.error("Error with places API", err);
-    });
-}
-
 const Locations = [
   {
     placename: "LT1",
@@ -54,20 +23,28 @@ const Locations = [
     placename: "VT",
     latitude: 25.265955,
     longitude: 82.987942
-  }
+  },{
+    placename: "SURAJ SAINI ROOM",
+    latitude: 25.258398,
+    longitude: 82.985758
+  },{
+    placename: "SAMPREETHDEVARAKONDA ROOM",
+    latitude: 25.257775,
+    longitude: 82.985382
+  },{
+    placename: "Karma Center",
+    latitude: 25.258140,
+    longitude: 82.985531
+  },
 ];
 
 window.onload = () => {
   const scene = document.querySelector("a-scene");
-
-  // first get current user location
   return navigator.geolocation.getCurrentPosition(
     function(position) {
       Locations.forEach(place => {
         const latitude = place.latitude;
         const longitude = place.longitude;
-
-        // add place name
         const placeText = document.createElement("a-link");
         placeText.setAttribute(
           "gps-entity-place",
