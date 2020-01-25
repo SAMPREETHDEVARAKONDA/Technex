@@ -41,7 +41,7 @@ window.onload = () => {
         const latitude = place.latitude;
         const longitude = place.longitude;
 
-        const placeText = document.createElement("a-link");
+        const placeText = document.createElement("a-image");
         placeText.setAttribute(
           "gps-entity-place",
           `latitude: ${latitude}; longitude: ${longitude};`
