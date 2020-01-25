@@ -15,11 +15,6 @@ const Locations = [
     longitude: 82.989659
   },
   {
-    placename: "Karma",
-    latitude: 25.257711,
-    longitude: 82.985525
-  },
-  {
     placename: "VT",
     latitude: 25.265955,
     longitude: 82.987942
