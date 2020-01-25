@@ -48,7 +48,7 @@ window.onload = () => {
         );
         placeText.setAttribute("title", place.placename);
         placeText.setAttribute("scale", "15 15 15");
-        placeText.setAttribute('src', '../assets/map-marker.png');
+        placeText.setAttribute('src', '/assets/map-marker.png');
 
         placeText.addEventListener("loaded", () => {
           window.dispatchEvent(new CustomEvent("gps-entity-place-loaded"));
