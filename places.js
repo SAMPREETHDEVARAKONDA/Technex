@@ -31,10 +31,7 @@ const Locations = [
     latitude: 25.258140,
     longitude: 82.985531
   },
-  {
-    placename : navigator.geolocation.getCurrentPosition(
-    "my position",  
-    )
+ 
 ];
 
 window.onload = () => {
