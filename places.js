@@ -33,14 +33,6 @@ const Locations = [
   },
 ];
 
-
-function showPosition() {
-        if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var positionInfo = "Your current position is (" + "Latitude: " + position.coords.latitude + ", " + "Longitude: " + position.coords.longitude + ")";
-                document.getElementById("result").innerHTML = positionInfo;
-            });
-
 window.onload = () => {
   const scene = document.querySelector("a-scene");
   return navigator.geolocation.getCurrentPosition(
