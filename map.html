@@ -17,17 +17,16 @@
   <div id="map"></div>
   ;
   <script>
-    var centre = new L.LatLng(25.258152, 82.985559);
-    var lc = null;
-    var karmmac = null;
-    var nanda = null;
-    var gatc = null;
+    
+    var centre = new L.LatLng(25.260644, 82.986878); //25.260644, 82.986878
     var userL ={
-        lat:25.260877,lng: 82.987748
+        lat:25.259813,lng:82.987196
     };
+    
     var polygon = [{
       placeArea: "lc",
       color:"#d09f5f",
+      area: "lc",
       points: [
       new L.LatLng(25.260010, 82.984468),
       new L.LatLng(25.260090, 82.984446),
@@ -46,7 +45,28 @@
       new L.LatLng(25.260396, 82.986903),
       new L.LatLng(25.260505, 82.986483)
     ]
-    },]
+    },
+     { placeArea: "nanda",
+      color:"#92AA83",
+      area: "nanda",
+      points: [
+        new L.LatLng(25.258341, 82.987868),
+new L.LatLng(25.258363, 82.987940),
+new L.LatLng(25.258513, 82.987921),
+new L.LatLng(25.259732, 82.990583),
+new L.LatLng(25.259800, 82.990553),
+new L.LatLng(25.258578, 82.987883),
+new L.LatLng(25.258609, 82.987796),
+new L.LatLng(25.260582, 82.986930),
+new L.LatLng(25.260568, 82.986871),
+new L.LatLng(25.258589, 82.987721),
+new L.LatLng(25.258499, 82.987715),
+new L.LatLng(25.257222, 82.985022),
+new L.LatLng(25.257171, 82.985048),
+new L.LatLng(25.258428, 82.987746)
+  ]
+  },
+];
     window.onload = () => {
       var map = new MapmyIndia.Map("map", {
         center: centre,
@@ -55,7 +75,7 @@
       });
       function isPointInLayer(userL, layer) {
                 var within = false;
-                var x = userL.lat, y = userL.lng;
+                var x = userL.latitude, y = userL.longitude;
                 for (var ii = 0; ii < layer.getLatLngs().length; ii++) {
                     var polyPoints = layer.getLatLngs()[ii];
                     for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
@@ -68,24 +88,39 @@
                             within = !within;
                     }
                 }
-                console.log("within",within)
                 return within;
             };
       function createPolygon(area,index) {
         if(area.placeArea === "lc"){
           lc = new L.polygon(area.points,{color: area.color});
+          lc.on("click", function(e) {
+        //Binding the popup to the polygon
+        lc.bindPopup(area.placeArea).openPopup();
+      });
           map.addLayer(lc);
         }
         if(area.placeArea === "karmmac"){
           karmmac = new L.polygon(area.points,{color: area.color});
+          karmmac.on("click", function(e) {
+        //Binding the popup to the polygon
+        karmmac.bindPopup(area.placeArea).openPopup();
+      });
           map.addLayer(karmmac);
         }
         if(area.placeArea === "nanda"){
           nanda = new L.polygon(area.points,{color: area.color});
+          nanda.on("click", function(e) {
+        //Binding the popup to the polygon
+        nanda.bindPopup(area.placeArea).openPopup();
+      });
           map.addLayer(nanda);
         }
         if(area.placeArea === "gatc"){
           gatc = new L.polygon(area.points,{color: area.color});
+          gatc.on("click", function(e) {
+        //Binding the popup to the polygon
+        gatc.bindPopup(area.placeArea).openPopup();
+      });
           map.addLayer(gatc);
         }
         
@@ -100,11 +135,25 @@
       // isPointInLayer(userL,p1)
       
     }
-    
-      // createPolygon(polygon[0]);
       polygon.forEach((area,index)=>{
-        createPolygon(area,index)
+        // createPolygon(area,index)
+       area.placeArea = new L.polygon(area.points,{color: area.color});
+       map.addLayer(area.placeArea)
       })
+
+      setInterval(()=>{
+        navigator.geolocation.getCurrentPosition((pos)=>{
+          polygon.forEach((area)=>{
+            if(isPointInLayer(pos.coords,area.placeArea)){
+              alert("in area "+ area.area)
+            } else {
+              alert("not in area " + area.area)
+            }
+          })
+        })
+      },4000)
+
+
     };
   </script>
 </body>
