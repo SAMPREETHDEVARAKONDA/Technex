@@ -45,7 +45,7 @@
             {
               name: "lcdirection",
               center: { lat: 25.260654, long: 82.986879 },
-              model: "./assets/directions/lc.gftl",
+              model: "./assets/directions/lc.gltf",
               scale: "15 15 15",
               render: false
             }
@@ -286,67 +286,6 @@
         }
       ];
 
-      function createPolygon(area) {
-        area.name = new L.polygon(area.points, { color: area.color });
-      }
-      function isPointInLayer(user, layer) {
-        var within = false;
-        var x = user.latitude,
-          y = user.longitude;
-        for (var ii = 0; ii < layer.getLatLngs().length; ii++) {
-          var polyPoints = layer.getLatLngs()[ii];
-          for (
-            var i = 0, j = polyPoints.length - 1;
-            i < polyPoints.length;
-            j = i++
-          ) {
-            var xi = polyPoints[i].lat,
-              yi = polyPoints[i].lng;
-            var xj = polyPoints[j].lat,
-              yj = polyPoints[j].lng;
-
-            var intersect =
-              yi > y != yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
-            if (intersect) within = !within;
-          }
-        }
-        return within;
-      }
-
-      function renderplace() {
-        navigator.geolocation.getCurrentPosition(postion => {
-          data.forEach(area => {
-            if (isPointInLayer(postion.coords, area.name)) {
-              if (area.objects.length > 0) {
-                area.objects.forEach(object => {
-                  if (!object.render) {
-                    const icon = document.createElement("a-entity");
-                    icon.setAttribute(
-                      "gps-entity-place",
-                      `latitude: ${object.center.lat}; longitude: ${object.center.long};`
-                    );
-                    icon.setAttribute("name", object.name);
-                    icon.setAttribute("gltf-model", object.model);
-                    // icon.setAttribute("scale", object.scale);
-                    icon.setAttribute("id", object.name);
-                    scene.appendChild(icon);
-                  }
-                });
-              }
-            } else {
-              if (area.objects.length > 0) {
-                area.objects.forEach(object => {
-                  if (object.render) {
-                    var element = document.getElementById(object.name);
-                    element.parentNode.removeChild(element);
-                  }
-                });
-              }
-            }
-          });
-        });
-      }
-
       window.onload = () => {
         const scene = document.querySelector("a-scene");
         // map = new MapmyIndia.Map("map", {
@@ -354,10 +293,73 @@
         //   zoomControl: true,
         //   hybrid: true
         // });
+
+        function createPolygon(area) {
+          area.name = new L.polygon(area.points, { color: area.color });
+        }
+        function isPointInLayer(user, layer) {
+          var within = false;
+          var x = 25.259118; //user.latitude,
+          y = 82.987478; //user.longitude;
+          for (var ii = 0; ii < layer.getLatLngs().length; ii++) {
+            var polyPoints = layer.getLatLngs()[ii];
+            for (
+              var i = 0, j = polyPoints.length - 1;
+              i < polyPoints.length;
+              j = i++
+            ) {
+              var xi = polyPoints[i].lat,
+                yi = polyPoints[i].lng;
+              var xj = polyPoints[j].lat,
+                yj = polyPoints[j].lng;
+
+              var intersect =
+                yi > y != yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+              if (intersect) within = !within;
+            }
+          }
+          return within;
+        }
+
+        function renderplace() {
+          navigator.geolocation.getCurrentPosition(postion => {
+            data.forEach(area => {
+              if (isPointInLayer(postion.coords, area.name)) {
+                console.log(area.placeArea);
+                if (area.objects.length > 0) {
+                  area.objects.forEach(object => {
+                    if (!object.render) {
+                      const icon = document.createElement("a-entity");
+                      icon.setAttribute(
+                        "gps-entity-place",
+                        `latitude: ${object.center.lat}; longitude: ${object.center.long};`
+                      );
+                      icon.setAttribute("name", object.name);
+                      icon.setAttribute("gltf-model", object.model);
+                      // icon.setAttribute("scale", object.scale);
+                      icon.setAttribute("id", object.name);
+                      scene.appendChild(icon);
+                    }
+                  });
+                }
+              } else {
+                if (area.objects.length > 0) {
+                  area.objects.forEach(object => {
+                    if (object.render) {
+                      var element = document.getElementById(object.name);
+                      element.parentNode.removeChild(element);
+                    }
+                  });
+                }
+              }
+            });
+          });
+        }
+
         data.forEach(area => {
           createPolygon(area);
-          renderplace();
         });
+        renderplace();
       };
     </script>
   </body>
