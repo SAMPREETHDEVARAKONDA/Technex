@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Testing ...</title>
+    <script src="https://apis.mapmyindia.com/advancedmaps/v1/mlshmhqdw8sytpv197pbjfdes81y5k93/map_load?v=1.3"></script>
+    <style>
+      html,
+      body,
+      #map {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script>
+      THREEx.ArToolkitContext.baseURL =
+        "https://raw.githack.com/jeromeetienne/ar.js/master/three.js/";
+    </script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      cursor="rayOrigin: mouse; fuse: true; fuseTimeout: 0;"
+      raycaster="objects: [gps-entity-place];"
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;"
+    >
+      <a-camera gps-camera="minDistance: 10" rotation-reader> </a-camera>
+    </a-scene>
+    <script>
+      var centre = new L.LatLng(25.260644, 82.986878);
+      var map = null;
+      var data = [
+        {
+          placeArea: "limdicorner",
+          color: "#d09f5f",
+          name: "lc",
+          objects: [
+            {
+              name: "lcdirection",
+              center: { lat: 25.260654, long: 82.986879 },
+              model: "./assets/directions/lc.gftl",
+              scale: "15 15 15",
+              render: false
+            }
+          ],
+          points: [
+            new L.LatLng(25.26001, 82.984468),
+            new L.LatLng(25.26009, 82.984446),
+            new L.LatLng(25.260609, 82.986391),
+            new L.LatLng(25.26106, 82.986753),
+            new L.LatLng(25.262606, 82.986494),
+            new L.LatLng(25.262613, 82.986639),
+            new L.LatLng(25.261356, 82.986819),
+            new L.LatLng(25.260883, 82.987518),
+            new L.LatLng(25.26126, 82.989204),
+            new L.LatLng(25.26113, 82.989282),
+            new L.LatLng(25.260681, 82.987215),
+            new L.LatLng(25.260251, 82.987063),
+            new L.LatLng(25.25902, 82.987606),
+            new L.LatLng(25.258964, 82.987503),
+            new L.LatLng(25.260396, 82.986903),
+            new L.LatLng(25.260505, 82.986483)
+          ]
+        },
+        {
+          placeArea: "advroad",
+          color: "#92AA83",
+          area: "nandacorner",
+          objects: [],
+          points: [
+            new L.LatLng(25.258341, 82.987868),
+            new L.LatLng(25.258363, 82.98794),
+            new L.LatLng(25.258513, 82.987921),
+            new L.LatLng(25.259732, 82.990583),
+            new L.LatLng(25.2598, 82.990553),
+            new L.LatLng(25.258578, 82.987883),
+            new L.LatLng(25.258609, 82.987796),
+            new L.LatLng(25.260582, 82.98693),
+            new L.LatLng(25.260568, 82.986871),
+            new L.LatLng(25.258589, 82.987721),
+            new L.LatLng(25.258499, 82.987715),
+            new L.LatLng(25.257222, 82.985022),
+            new L.LatLng(25.257171, 82.985048),
+            new L.LatLng(25.258428, 82.987746)
+          ]
+        },
+        {
+          placeArea: "gtac",
+          color: "#C1B2AB",
+          area: "gtac",
+          objects: [],
+          points: [
+            new L.LatLng(25.25971, 82.983934),
+            new L.LatLng(25.259903, 82.98395),
+            new L.LatLng(25.260576, 82.986747),
+            new L.LatLng(25.26066, 82.986687),
+            new L.LatLng(25.259988, 82.983906),
+            new L.LatLng(25.260072, 82.983785),
+            new L.LatLng(25.262906, 82.983281),
+            new L.LatLng(25.2629, 82.983188),
+            new L.LatLng(25.259993, 82.98371),
+            new L.LatLng(25.259916, 82.983665),
+            new L.LatLng(25.259749, 82.982926),
+            new L.LatLng(25.259749, 82.982926),
+            new L.LatLng(25.259844, 82.983712),
+            new L.LatLng(25.259801, 82.983786),
+            new L.LatLng(25.25728, 82.984809),
+            new L.LatLng(25.257359, 82.984949)
+          ]
+        },
+        {
+          placeArea: "karma",
+          color: "#74121D",
+          area: "karmacorner",
+          objects: [],
+          points: [
+            new L.LatLng(25.257359, 82.984949),
+            new L.LatLng(25.257312, 82.985088),
+            new L.LatLng(25.258508, 82.987655),
+            new L.LatLng(25.258358, 82.987733),
+            new L.LatLng(25.257154, 82.985131),
+            new L.LatLng(25.257028, 82.985105),
+            new L.LatLng(25.254694, 82.986719),
+            new L.LatLng(25.254622, 82.986594),
+            new L.LatLng(25.257011, 82.984963),
+            new L.LatLng(25.257027, 82.984838),
+            new L.LatLng(25.25608, 82.982814),
+            new L.LatLng(25.256217, 82.982724),
+            new L.LatLng(25.257165, 82.984766),
+            new L.LatLng(25.257311, 82.984802),
+            new L.LatLng(25.259757, 82.983763),
+            new L.LatLng(25.259806, 82.983924)
+          ]
+        },
+        {
+          placeArea: "lotuslake",
+          color: "#559CAD",
+          area: "lotuslake",
+          objects: [],
+          points: [
+            new L.LatLng(25.263292, 82.989794),
+            new L.LatLng(25.263416, 82.992636),
+            new L.LatLng(25.263549, 82.992626),
+            new L.LatLng(25.263402, 82.989779),
+            new L.LatLng(25.263476, 82.989713),
+            new L.LatLng(25.265481, 82.989916),
+            new L.LatLng(25.265495, 82.989794),
+            new L.LatLng(25.263501, 82.989596),
+            new L.LatLng(25.263388, 82.989502),
+            new L.LatLng(25.263298, 82.986603),
+            new L.LatLng(25.263176, 82.986581),
+            new L.LatLng(25.263276, 82.989522),
+            new L.LatLng(25.263197, 82.989606),
+            new L.LatLng(25.261544, 82.989945),
+            new L.LatLng(25.261567, 82.990076),
+            new L.LatLng(25.263207, 82.989712)
+          ]
+        },
+        {
+          placeArea: "dgcorner",
+          color: "#4A5899",
+          area: "dgcorner",
+          objects: [],
+          points: [
+            new L.LatLng(25.263232, 82.984621),
+            new L.LatLng(25.262976, 82.984656),
+            new L.LatLng(25.263075, 82.986139),
+            new L.LatLng(25.262827, 82.986396),
+            new L.LatLng(25.26125, 82.986605),
+            new L.LatLng(25.261272, 82.986975),
+            new L.LatLng(25.262954, 82.986621),
+            new L.LatLng(25.263047, 82.9869),
+            new L.LatLng(25.263183, 82.989401),
+            new L.LatLng(25.263502, 82.989342),
+            new L.LatLng(25.263399, 82.986801),
+            new L.LatLng(25.263632, 82.986592),
+            new L.LatLng(25.266432, 82.986998),
+            new L.LatLng(25.266519, 82.986616),
+            new L.LatLng(25.263513, 82.986275),
+            new L.LatLng(25.263361, 82.985976)
+          ]
+        },
+        {
+          placeArea: "cividep",
+          color: "#8C5383",
+          area: "cividep",
+          objects: [],
+          points: [
+            new L.LatLng(25.263361, 82.992468),
+            new L.LatLng(25.263075, 82.992618),
+            new L.LatLng(25.261356, 82.993066),
+            new L.LatLng(25.261442, 82.993389),
+            new L.LatLng(25.263167, 82.992917),
+            new L.LatLng(25.263378, 82.9931142),
+            new L.LatLng(25.263567, 82.995858),
+            new L.LatLng(25.26387, 82.995762),
+            new L.LatLng(25.263659, 82.993126),
+            new L.LatLng(25.263832, 82.992875),
+            new L.LatLng(25.264772, 82.992928),
+            new L.LatLng(25.264799, 82.992677),
+            new L.LatLng(25.263691, 82.992606),
+            new L.LatLng(25.263599, 82.992349),
+            new L.LatLng(25.263502, 82.989993),
+            new L.LatLng(25.263194, 82.989951)
+          ]
+        },
+        {
+          placeArea: "sb",
+          color: "#210124",
+          area: "sb",
+          objects: [],
+          objects: [],
+          points: [
+            new L.LatLng(25.260885, 82.993281),
+            new L.LatLng(25.260815, 82.993449),
+            new L.LatLng(25.259004, 82.994881),
+            new L.LatLng(25.259243, 82.995199),
+            new L.LatLng(25.260848, 82.993769),
+            new L.LatLng(25.261119, 82.993893),
+            new L.LatLng(25.262213, 82.996329),
+            new L.LatLng(25.262501, 82.996153),
+            new L.LatLng(25.261399, 82.99376),
+            new L.LatLng(25.261511, 82.993389),
+            new L.LatLng(25.263252, 82.992987),
+            new L.LatLng(25.263261, 82.992542),
+            new L.LatLng(25.261247, 82.993105),
+            new L.LatLng(25.261025, 82.993032),
+            new L.LatLng(25.260187, 82.991097),
+            new L.LatLng(25.259899, 82.991288)
+          ]
+        },
+        {
+          placeArea: "lt1",
+          color: "#74121D",
+          area: "lt1",
+          objects: [],
+          objects: [],
+          points: [
+            new L.LatLng(25.260105, 82.990933),
+            new L.LatLng(25.26022, 82.99067),
+            new L.LatLng(25.26308, 82.989843),
+            new L.LatLng(25.263104, 82.989488),
+            new L.LatLng(25.260251, 82.990303),
+            new L.LatLng(25.259805, 82.990207),
+            new L.LatLng(25.258874, 82.988115),
+            new L.LatLng(25.258476, 82.988297),
+            new L.LatLng(25.259464, 82.99033),
+            new L.LatLng(25.259349, 82.990816),
+            new L.LatLng(25.25826, 82.991594),
+            new L.LatLng(25.25843, 82.991837),
+            new L.LatLng(25.259583, 82.991024),
+            new L.LatLng(25.259838, 82.991102),
+            new L.LatLng(25.260776, 82.993324),
+            new L.LatLng(25.261165, 82.993002)
+          ]
+        },
+        {
+          placeArea: "sriyaroad",
+          color: "#B3DEC1",
+          area: "sriyaroad",
+          objects: [],
+          objects: [],
+          points: [
+            new L.LatLng(25.262892, 82.983591),
+            new L.LatLng(25.263047, 82.986123),
+            new L.LatLng(25.263348, 82.986069),
+            new L.LatLng(25.263154, 82.983441),
+            new L.LatLng(25.263406, 82.983334),
+            new L.LatLng(25.265783, 82.983548),
+            new L.LatLng(25.265842, 82.98314),
+            new L.LatLng(25.263513, 82.98299),
+            new L.LatLng(25.263173, 82.982786),
+            new L.LatLng(25.262805, 82.982808),
+            new L.LatLng(25.262611, 82.983044),
+            new L.LatLng(25.260476, 82.983419),
+            new L.LatLng(25.260515, 82.983806),
+            new L.LatLng(25.262746, 82.983398)
+          ]
+        }
+      ];
+
+      function createPolygon(area) {
+        area.name = new L.polygon(area.points, { color: area.color });
+      }
+      function isPointInLayer(user, layer) {
+        var within = false;
+        var x = user.latitude,
+          y = user.longitude;
+        for (var ii = 0; ii < layer.getLatLngs().length; ii++) {
+          var polyPoints = layer.getLatLngs()[ii];
+          for (
+            var i = 0, j = polyPoints.length - 1;
+            i < polyPoints.length;
+            j = i++
+          ) {
+            var xi = polyPoints[i].lat,
+              yi = polyPoints[i].lng;
+            var xj = polyPoints[j].lat,
+              yj = polyPoints[j].lng;
+
+            var intersect =
+              yi > y != yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+            if (intersect) within = !within;
+          }
+        }
+        return within;
+      }
+
+      function renderplace() {
+        navigator.geolocation.getCurrentPosition(postion => {
+          data.forEach(area => {
+            if (isPointInLayer(postion.coords, area.name)) {
+              if (area.objects.length > 0) {
+                area.objects.forEach(object => {
+                  if (!object.render) {
+                    const icon = document.createElement("a-entity");
+                    icon.setAttribute(
+                      "gps-entity-place",
+                      `latitude: ${object.center.lat}; longitude: ${object.center.long};`
+                    );
+                    icon.setAttribute("name", object.name);
+                    icon.setAttribute("gltf-model", object.model);
+                    icon.setAttribute("scale", object.scale);
+                    icon.setAttribute("id", object.name);
+                    scene.appendChild(icon);
+                  }
+                });
+              }
+            } else {
+              if (area.objects.length > 0) {
+                area.objects.forEach(object => {
+                  if (object.render) {
+                    var element = document.getElementById(object.name);
+                    element.parentNode.removeChild(element);
+                  }
+                });
+              }
+            }
+          });
+        });
+      }
+
+      window.onload = () => {
+        const scene = document.querySelector("a-scene");
+        // map = new MapmyIndia.Map("map", {
+        //   center: centre,
+        //   zoomControl: true,
+        //   hybrid: true
+        // });
+        data.forEach(area => {
+          createPolygon(area);
+          renderplace();
+        });
+      };
+    </script>
+  </body>
+</html>
