@@ -46,7 +46,7 @@
             {
               name: "lcdirection",
               center: { lat: 25.260654, long: 82.986879 },
-              model: "./assets/directions/lc.gltf",
+              model: "./assets/model/lc.gltf",
               scale: "15 15 15",
               render: false
             }
@@ -297,20 +297,20 @@
 
       window.onload = () => {
         const scene = document.querySelector("a-scene");
-        map = new MapmyIndia.Map("map", {
-          center: centre,
-          zoomControl: true,
-          hybrid: true
-        });
+        // map = new MapmyIndia.Map("map", {
+        //   center: centre,
+        //   zoomControl: true,
+        //   hybrid: true
+        // });
 
         function createPolygon(area) {
           area.name = new L.polygon(area.points, { color: area.color });
-          map.addLayer(area.name);
+          // map.addLayer(area.name);
         }
         function isPointInLayer(user, layer) {
           var within = false;
-          var x = 25.259118; //user.latitude,
-          y = 82.987478; //user.longitude;
+          var x = user.latitude;
+          var y = user.longitude;
           for (var ii = 0; ii < layer.getLatLngs().length; ii++) {
             var polyPoints = layer.getLatLngs()[ii];
             for (
