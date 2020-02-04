@@ -335,7 +335,7 @@
           navigator.geolocation.getCurrentPosition(postion => {
             data.forEach(area => {
               if (isPointInLayer(postion.coords, area.name)) {
-                console.log(area.placeArea);
+                alert(area.placeArea);
                 if (area.objects.length > 0) {
                   area.objects.forEach(object => {
                     if (!object.render) {
