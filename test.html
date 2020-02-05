@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta http-equiv="Cache-control" content="public">
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Testing ...</title>
@@ -309,8 +310,8 @@
         }
         function isPointInLayer(user, layer) {
           var within = false;
-          var x = user.latitude;
-          var y = user.longitude;
+          var x = 25.260455;//user.latitude;
+          var y = 82.986078;//user.longitude;
           for (var ii = 0; ii < layer.getLatLngs().length; ii++) {
             var polyPoints = layer.getLatLngs()[ii];
             for (
