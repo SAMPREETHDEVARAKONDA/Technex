@@ -310,8 +310,8 @@
         }
         function isPointInLayer(user, layer) {
           var within = false;
-          var x = 25.260455;//user.latitude;
-          var y = 82.986078;//user.longitude;
+          var x = user.latitude;
+          var y = user.longitude;
           for (var ii = 0; ii < layer.getLatLngs().length; ii++) {
             var polyPoints = layer.getLatLngs()[ii];
             for (
