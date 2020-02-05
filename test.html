@@ -335,10 +335,10 @@
           navigator.geolocation.getCurrentPosition(postion => {
             data.forEach(area => {
               if (isPointInLayer(postion.coords, area.name)) {
-                alert(area.placeArea);
                 if (area.objects.length > 0) {
                   area.objects.forEach(object => {
                     if (!object.render) {
+                      alert(area.placeArea);
                       const icon = document.createElement("a-entity");
                       icon.setAttribute(
                         "gps-entity-place",
